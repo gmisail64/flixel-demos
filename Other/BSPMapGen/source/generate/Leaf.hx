@@ -2,7 +2,8 @@ package generate;
 
 import flash.geom.Rectangle;
 import flixel.FlxG;
-import flixel.math.FlxPoint;
+import flixel.util.FlxPoint;
+import flixel.util.FlxRandom;
 
 class Leaf
 {
@@ -37,7 +38,9 @@ class Leaf
 		// If width >25% larger than height, split vertically
 		// Else if height >25% larger than width, split horizontally
 		// Else split randomly
-		var splitH:Bool = FlxG.random.float() > 0.5;
+		var splitH:Bool = FlxRandom.float() > 0.5;
+
+
 
 		if (width > height && height / width >= 0.05)
 			splitH = false;
@@ -49,7 +52,7 @@ class Leaf
 			return false; // the area is too small to split any more...
 
 		// Where to split
-		var split = Std.int(FlxG.random.float(MIN_SIZE, max)); // determine where we're going to split
+		var split = Std.int(FlxRandom.floatRanged(MIN_SIZE, max)); // determine where we're going to split
 
 		// Create children based on split direction
 		if (splitH)
@@ -88,7 +91,7 @@ class Leaf
 				return lRoom;
 			else if (lRoom == null)
 				return rRoom;
-			else if (FlxG.random.float() > .5)
+			else if (FlxRandom.float() > .5)
 				return lRoom;
 			else
 				return rRoom;
@@ -120,12 +123,12 @@ class Leaf
 		{
 			// Room can be between 3x3 tiles to the leaf size - 2
 			var roomSize = new FlxPoint(
-				FlxG.random.float(3, width - 2),
-				FlxG.random.float(3, height - 2));
+				FlxRandom.floatRanged(3, width - 2),
+				FlxRandom.floatRanged(3, height - 2));
 			// Place the room within leaf, but not against sides (would merge)
 			var roomPos = new FlxPoint(
-				FlxG.random.float(1, width - roomSize.x - 1),
-				FlxG.random.float(1, height - roomSize.y - 1));
+				FlxRandom.floatRanged(1, width - roomSize.x - 1),
+				FlxRandom.floatRanged(1, height - roomSize.y - 1));
 				
 			room = new Rectangle(x + roomPos.x, y + roomPos.y, roomSize.x, roomSize.y);
 		}
@@ -137,11 +140,11 @@ class Leaf
 		hallways = [];
 
 		var point1 = FlxPoint.get(
-			FlxG.random.float(left.left + 1, left.right - 2),
-			FlxG.random.float(left.top + 1, left.bottom - 2));
+			FlxRandom.floatRanged(left.left + 1, left.right - 2),
+			FlxRandom.floatRanged(left.top + 1, left.bottom - 2));
 		var point2 = FlxPoint.get(
-			FlxG.random.float(right.left + 1, right.right - 2),
-			FlxG.random.float(right.top + 1, right.bottom - 2));
+			FlxRandom.floatRanged(right.left + 1, right.right - 2),
+			FlxRandom.floatRanged(right.top + 1, right.bottom - 2));
 
 		var w = point2.x - point1.x;
 		var h = point2.y - point1.y;
@@ -150,7 +153,7 @@ class Leaf
 		{
 			if (h < 0)
 			{
-				if (FlxG.random.float() > 0.5)
+				if (FlxRandom.float() > 0.5)
 				{
 					hallways.push(new Rectangle(point2.x, point1.y, Math.abs(w), 1));
 					hallways.push(new Rectangle(point2.x, point2.y, 1, Math.abs(h)));
@@ -163,7 +166,7 @@ class Leaf
 			}
 			else if (h > 0)
 			{
-				if (FlxG.random.float() > 0.5)
+				if (FlxRandom.float() > 0.5)
 				{
 					hallways.push(new Rectangle(point2.x, point1.y, Math.abs(w), 1));
 					hallways.push(new Rectangle(point2.x, point1.y, 1, Math.abs(h)));
@@ -183,7 +186,7 @@ class Leaf
 		{
 			if (h < 0)
 			{
-				if (FlxG.random.float() > 0.5)
+				if (FlxRandom.float() > 0.5)
 				{
 					hallways.push(new Rectangle(point1.x, point2.y, Math.abs(w), 1));
 					hallways.push(new Rectangle(point1.x, point2.y, 1, Math.abs(h)));
@@ -196,7 +199,7 @@ class Leaf
 			}
 			else if (h > 0)
 			{
-				if (FlxG.random.float() > 0.5)
+				if (FlxRandom.float() > 0.5)
 				{
 					hallways.push(new Rectangle(point1.x, point1.y, Math.abs(w), 1));
 					hallways.push(new Rectangle(point2.x, point1.y, 1, Math.abs(h)));
