@@ -5,10 +5,12 @@ import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.math.FlxRandom;
 import flixel.ui.FlxButton;
+import flixel.util.FlxRandom;
 import flixel.util.FlxColor;
 import play.PlayState;
+
+using flixel.util.FlxSpriteUtil;
 
 class GenerateState extends FlxState
 {
@@ -71,7 +73,7 @@ class GenerateState extends FlxState
 				if (leaf.leftChild == null && leaf.rightChild == null) // If not split
 				{
 					// If this leaf is too big, or 75% chance
-					if (leaf.width > Leaf.MAX_SIZE || leaf.height > Leaf.MAX_SIZE || FlxG.random.float() > 0.25)
+					if (leaf.width > Leaf.MAX_SIZE || leaf.height > Leaf.MAX_SIZE || FlxRandom.float() > 0.25)
 					{
 						if (leaf.split()) // split the leaf!
 						{
@@ -133,9 +135,9 @@ class GenerateState extends FlxState
 		mapData.fillRect(roomRect, FlxColor.WHITE);
 	}
 	
-	override public function update(elapsed:Float):Void
+	override public function update():Void
 	{
-		super.update(elapsed);
+		super.update();
 		
 		if (FlxG.keys.justReleased.G)
 		{
